@@ -1,6 +1,8 @@
 <template>
-    <div class="movie_item mb-3">
-        <div class="movie_item_poster" :style="posterBg"></div>
+    <div class="movie_item">
+        <div class="movie_item_poster">
+            <img class="movie_item_image" :src="movie.Poster" :alt="movie.Title">
+        </div>
         <div class="movie_info_wraper d-flex flex-column justify-content-between">
             <div class="movie_item_info">
                 <h3 class="movie_title">{{movie.Title}}</h3>
@@ -8,10 +10,10 @@
             </div>
             <div class="movie_item_controls row no-gutters">
                 <div class="col">
-                    <BButton size="md" block variant="outline-light">Edit</BButton>
+                    <BButton class="movie_item_button" size="md" block variant="outline-light">Edit</BButton>
                 </div>
                 <div class="col">
-                    <BButton size="md" block variant="outline-light">Remove</BButton>
+                    <BButton class="movie_item_button" size="md" block variant="outline-light" @click="removeFilm">Remove</BButton>
                 </div>
             </div>
         </div>
@@ -27,14 +29,15 @@ export default {
             required: true
         }
     },
-    computed: {
-        posterBg(){
-            return { 
-                'background-image': `url(${this.movie.Poster})`
-            }
+    methods: {
+        removeFilm(){
+            this.$emit('removeItem', { 
+                id: this.movie.imdbID, 
+                title: this.movie.Title
+            });
         }
-    }
-}
+    },
+};
 </script>
 
 <style scoped>
@@ -43,28 +46,44 @@ export default {
     cursor: pointer;
     border-radius: 5px;
     overflow: hidden;
-    transition: all 0.4s ease-in;
-    height: 300px;
+    transition: all 0.3s ease-in;
+    height: 400px;
+    max-width: 320px;
+    width: 100%;
+    margin: 0;
 }
 .movie_item:hover{
-    box-shadow: 0px 5px 30px rgba(0,0,0,0.7);
+    box-shadow: 0px 5px 30px rgba(0,0,0,0.5);
     transform: scale(1.05);
 }
+.movie_item:hover .movie_item_image{
+    filter: brightness(0.1);
+}
+.movie_item:hover .movie_info_wraper{
+    opacity: 1;
+}
 .movie_item_poster{
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
+}
+.movie_item_image{
+    width: 100%;
+    height: 100%;
+    transition: 0.5s all;
 }
 .movie_info_wraper{
-    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 40px 10px 30px 10px;
     height: 100%;
+    width: 100%;
+    z-index: 1;
+    opacity: 0;
+    color: white;
+    transition: 0.5s all;
+}
+.movie_item_button{
+    width: 100%;
 }
 </style>
