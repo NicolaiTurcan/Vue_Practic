@@ -9,7 +9,7 @@ function serializeRespons(movies) {
     }, {});
 };
 
-const { MOVIES, CURRENT_PAGE, REMOVE_MOVIE } = mutations;
+const { MOVIES, CURRENT_PAGE, REMOVE_MOVIE, SEARCH_TOGGLE } = mutations;
 
 const moviesStore = {
     namespaced: true,
@@ -17,7 +17,8 @@ const moviesStore = {
         top250IDs: IDs,
         moviesPerPage: 24,
         currentPage: 1,
-        movies: {}
+        movies: {},
+        isSearch: false,
     },
     getters: {
         slicedIDs: ({ top250IDs }) => (from, to) => top250IDs.slice(from, to),
@@ -25,6 +26,7 @@ const moviesStore = {
         moviesPerPage: ({ moviesPerPage }) => moviesPerPage,
         moviesList: ({ movies }) => movies,
         moviesTotal: ({ top250IDs}) => Object.keys(top250IDs).length,
+        isSearch: ({ isSearch }) => isSearch,
     },
     mutations: {
         [MOVIES](state, value){
@@ -35,15 +37,18 @@ const moviesStore = {
         },
         [REMOVE_MOVIE](state, index){
             state.top250IDs.splice(index, 1);
+        },
+        [SEARCH_TOGGLE](state, boolean){
+            state.isSearch = boolean;
         }
     },
     actions: {
-        initMoviesStore: {
-            handler({ dispatch }) {
-                dispatch("fetchMovies");
-            },
-            root: true
-        },
+        // initMoviesStore: {
+        //     handler({ dispatch }) {
+        //         dispatch("fetchMovies");
+        //     },
+        //     root: true
+        // },
         async fetchMovies({ getters, commit, dispatch }) {
             try {
                 dispatch("toggleLoader", true, { root: true })
@@ -73,19 +78,29 @@ const moviesStore = {
                 dispatch("fetchMovies");
             }
         },
-        async searchMovies({ dispatch }, query){
+        async searchMovies({ dispatch, commit }, query){
             try{
                 dispatch("toggleLoader", true, { root: true });
 
                 const response = await axios.get(`/?s=${query}`);
-                console.log(response)
+                if (response.Error) {
+                    throw Error(response.Error)
+                }
+                const movies = serializeRespons(response.Search);
+                commit(MOVIES, movies)
             } catch (error){
-                console.log(error);
+                dispatch("showNotify", { 
+                    message: error.message, 
+                    title: "Error", 
+                    variant: "danger" }, { root: true });
             } finally {
                 dispatch("toggleLoader", false, { root: true });
-            }
-        }
-    }
+            };
+        },
+        toggleSearchState({ commit }, boolean) {
+            commit(SEARCH_TOGGLE, boolean);
+        },
+    },
 };
 
 export default moviesStore;

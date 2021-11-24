@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <Loader />
     <Header />
+    <Loader />
+    <Notification />
     <MoviesList :list="moviesList" />
     <MoviesPagination
       :current-page="currentPage"
@@ -18,6 +19,7 @@ import MoviesList from "@/components/MoviesList.vue";
 import MoviesPagination from "@/components/MoviesPagination.vue";
 import Loader from "@/components/Loader.vue";
 import Header from "@/components/Header.vue";
+import Notification from "@/components/Notification.vue";
 
 export default {
   name: "App",
@@ -26,6 +28,7 @@ export default {
     MoviesPagination,
     Loader,
     Header,
+    Notification,
   },
   computed: {
     ...mapGetters("movies", [

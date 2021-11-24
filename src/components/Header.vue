@@ -3,7 +3,7 @@
         <b-navbar type="dark" class="navbar" variant="dark">
             <b-container>
                 <b-navbar-brand href="#">MovieDB</b-navbar-brand>
-                <form>
+                <form @submit.prevent>
                     <b-form-input size="sm" class="search_input mr-sm-2"
                     placeholder="Search" 
                     v-model="searchValue"
@@ -26,9 +26,15 @@ export default {
         searchValue: "onSearchValueChange"
     },
     methods: {
-        ...mapActions('movies', ["searchMovies"]),
+        ...mapActions('movies', ["searchMovies", "fetchMovies", "toggleSearchState"]),
         onSearchValueChange(value){
-           this.searchMovies(value);
+            if (value) {
+                this.searchMovies(value);
+                this.toggleSearchState(true);
+            } else {
+                this.fetchMovies(value);
+                this.toggleSearchState(false);
+            }
         }
     }
 }

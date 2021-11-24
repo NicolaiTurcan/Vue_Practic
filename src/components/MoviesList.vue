@@ -1,25 +1,33 @@
 <template>
     <section class="content_container">
-        <h1 class="list_title">IMDB Movies</h1>
+        <h1 class="list_title">{{ listTitle }}</h1>
         <BRow>
             <template v-if="isExist">
                 <BCol cols="2" class="list_movie" v-for="(movie, key) in list" :key="key">
-                    <MovieItem :movie="movie" @removeItem="onRemoveItem"/>
+                    <MovieItem :movie="movie" @removeItem="onRemoveItem" @showModal="onShowMovieInfo"/>
                 </BCol>
             </template>
             <template v-else>
-                <div class="empty">Empty List</div>
+                <div class="empty"></div>
             </template>
         </BRow>
+        <BModal body-class="modal_window '.modal-content" :id="movieInfoModalID" size="xl" hide-footer hide-header>
+            <MovieInfoModal :movie="selectedMovie" @closeMod="onCloseModal"/>
+        </BModal>
     </section>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import MovieItem from "./MovieItem.vue";
+import MovieInfoModal from "./MovieInfoModal.vue";
 
 export default {
     name: "MoviesList",
+    data: () => ({
+        movieInfoModalID: "movie-info", 
+        selectedMovieID: "",
+    }),
     props: {
         list:{
             type: Object,
@@ -27,11 +35,23 @@ export default {
         }
     },
     components:{
-        MovieItem
+        MovieItem,
+        MovieInfoModal,
     },
     computed:{
+        ...mapGetters("movies", ["isSearch"]),
         isExist(){
             return Boolean(Object.keys(this.list).length);
+        },
+        listTitle(){
+            if (this.isSearch) {
+                return "Search Result";
+            } else {
+                return "IMDB Movies";
+            }
+        },
+        selectedMovie(){
+            return this.selectedMovieID ? this.list[this.selectedMovieID] : null;
         }
     },
     methods:{
@@ -42,6 +62,13 @@ export default {
             if(isConfirmed) {
                 this.removeMovie(id);
             }
+        },
+        onShowMovieInfo(id){
+            this.selectedMovieID = id;
+            this.$bvModal.show(this.movieInfoModalID);
+        },
+        onCloseModal(){
+            this.$bvModal.hide(this.movieInfoModalID);
         }
     },
 };
@@ -84,5 +111,15 @@ export default {
         width: 100%;
         justify-content: center;
     }
+}
+</style>
+
+<style>
+.modal_window{
+    padding: 0 !important;
+}
+.modal-content{
+    border-radius: 0 !important;
+    border: none !important;
 }
 </style>
