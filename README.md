@@ -1,4 +1,6 @@
 # moviesapp
+# Hello every one, this is a small project that i made.
+# I used Vue CLI,  VueX, vue-router, axios and bootstrap-vue.
 
 ## Project setup
 ```
