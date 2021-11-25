@@ -10,6 +10,7 @@
       :total="moviesTotal"
       @pagechanged="onPageChanged"
     />
+    <Footer />
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import MoviesPagination from "@/components/MoviesPagination.vue";
 import Loader from "@/components/Loader.vue";
 import Header from "@/components/Header.vue";
 import Notification from "@/components/Notification.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "App",
@@ -29,6 +31,7 @@ export default {
     Loader,
     Header,
     Notification,
+    Footer,
   },
   computed: {
     ...mapGetters("movies", [
@@ -59,6 +62,8 @@ export default {
 
 <style>
 #app {
+  margin: 0;
+  padding: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -68,6 +73,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  background: #93a4b6;
+  background: #1A1A1D;
+  min-height: 100vh;
 }
 </style>

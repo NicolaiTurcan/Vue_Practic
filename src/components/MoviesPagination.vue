@@ -56,4 +56,9 @@ export default {
         border-color: #fff;
         color: black;
     }
+    @media (max-width:950px){
+    .pagination{
+    margin-top: 15px;
+    }
+}
 </style>

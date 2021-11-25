@@ -1,16 +1,16 @@
 <template>
-    <section class="content_container">
+    <section class="container">
         <h1 class="list_title">{{ listTitle }}</h1>
-        <BRow>
+        <div class="content">
             <template v-if="isExist">
-                <BCol cols="2" class="list_movie" v-for="(movie, key) in list" :key="key">
+                <div class="list_movie" v-for="(movie, key) in list" :key="key">
                     <MovieItem :movie="movie" @removeItem="onRemoveItem" @showModal="onShowMovieInfo"/>
-                </BCol>
+                </div>
             </template>
             <template v-else>
                 <div class="empty"></div>
             </template>
-        </BRow>
+        </div>
         <BModal body-class="modal_window '.modal-content" :id="movieInfoModalID" size="xl" hide-footer hide-header>
             <MovieInfoModal :movie="selectedMovie" @closeMod="onCloseModal"/>
         </BModal>
@@ -47,7 +47,7 @@ export default {
             if (this.isSearch) {
                 return "Search Result";
             } else {
-                return "IMDB Movies";
+                return "IMDb Top 250 Movies";
             }
         },
         selectedMovie(){
@@ -75,43 +75,37 @@ export default {
 </script>
 
 <style scoped>
-.content_container{
-    margin: 0 3%;
+.container{
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   max-width: 1600px;
+}
+.content{
+    max-width: 1600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 .list_movie{
-    display: flex;
-    margin-bottom: 20px;
+    height: 400px;
+    width: 320px;
+
 }
 .list_title{
     font-size: 50px;
+    font-weight: 600;
     margin: 40px;
+    color: #FFF;
 }
-@media (max-width:1750px){
-    .list_movie{
-        width: 20%;
+@media (max-width:950px){
+    .list_title{
+    font-size: 30px;
+    margin: 15px;
     }
 }
-@media (max-width:1400px){
-    .list_movie{
-        width: 25%;
-    }
-}
-@media (max-width:1150px){
-    .list_movie{
-        width: 33.33333%;
-    }
-}
-@media (max-width:850px){
-    .list_movie{
-        width: 50%;
-    }
-}
-@media (max-width:525px){
-    .list_movie{
-        width: 100%;
-        justify-content: center;
-    }
-}
+
 </style>
 
 <style>

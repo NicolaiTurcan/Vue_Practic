@@ -51,7 +51,7 @@ export default {
     overflow: hidden;
     transition: all 0.3s ease-in;
     height: 400px;
-    max-width: 320px;
+    width: 320px;
     width: 100%;
     margin: 0;
 }
@@ -66,10 +66,14 @@ export default {
     opacity: 1;
 }
 .movie_item_poster{
+    width: 300px;
+    height: 420px;
     width: 100%;
     height: 100%;
 }
 .movie_item_image{
+    width: 300px;
+    height: 420px;
     width: 100%;
     height: 100%;
     transition: 0.5s all;

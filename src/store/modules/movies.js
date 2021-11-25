@@ -1,4 +1,4 @@
-import IDs from "@/store/mock/imdb_top250.js";
+import IDs from "@/store/mock/top250.js";
 import axios from "@/plugins/axios";
 import mutations from "@/store/mutations";
 

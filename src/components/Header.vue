@@ -2,7 +2,7 @@
     <header class="header">
         <b-navbar type="dark" class="navbar" variant="dark">
             <b-container>
-                <b-navbar-brand href="#">MovieDB</b-navbar-brand>
+                <b-navbar-brand class="logo" href="https://www.imdb.com/" target="_blank">MovieIMDb</b-navbar-brand>
                 <form @submit.prevent>
                     <b-form-input size="sm" class="search_input mr-sm-2"
                     placeholder="Search" 
@@ -41,19 +41,20 @@ export default {
 </script>
 
 <style scoped>
-.header{
-    margin-bottom: 30px;
-}
 .navbar{
     background-color: rgba(0,0,0,0.7) !important;
+    height: 70px;
+}
+.logo{
+    color: #fff !important;
+    font-weight: 700;
 }
 .search_input{
-    color: #fff;
+    color: #fff !important;
     background: rgba(255,255,255,0.1);
     border-color: rgba(0,0,0,0.6);
 }
 .search_input:focus{
-    color: #fff;
     box-shadow: none;
     background: rgba(255,255,255,0.3);
     border-color: rgba(0,0,0,0.6);
