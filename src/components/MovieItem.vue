@@ -77,6 +77,7 @@ export default {
     width: 100%;
     height: 100%;
     transition: 0.5s all;
+    object-fit: cover;
 }
 .movie_info_wraper{
     position: absolute;
